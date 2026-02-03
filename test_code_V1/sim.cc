@@ -10,7 +10,7 @@
 
 #include "V1PhysicsList.hh"
 #include "V1DetectorConstruction.hh"
-// #include "V1ActionInitialization.hh"
+#include "V1ActionInitialization.hh"
 
 int main(int argc, char **argv)
 {
@@ -31,7 +31,7 @@ int main(int argc, char **argv)
     runManager->SetUserInitialization(new V1DetectorConstruction());
 
     // Action Initialization
-    // runManager->SetUserInitialization(new test1ActionInitialization());
+    runManager->SetUserInitialization(new V1ActionInitialization());
 
     if (argc == 1)
     {

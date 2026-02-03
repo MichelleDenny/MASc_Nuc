@@ -37,13 +37,18 @@ G4VPhysicalVolume *V1DetectorConstruction::Construct()
     G4double holeLength = grapThickness;
     // Hole (cylinder)
     G4Tubs *solidHole = new G4Tubs("solidHole", 0., holeRadius, 0.5 * holeLength, 0., 360. * deg);
-    // Graphite with hole
+    // G4LogicalVolume *logicSolidHole = new G4LogicalVolume(solidHole, grapMat, "logicSolidHole");
+
+    // G4VisAttributes *holeVisAtt = new G4VisAttributes(G4Color(1.0, 0.0, 1.0, 0.5));
+    // holeVisAtt->SetForceSolid(true);
+    // logicSolidHole->SetVisAttributes(holeVisAtt);
+    //   Graphite with hole
     G4SubtractionSolid *solidGrapWithHole = new G4SubtractionSolid("solidGrapWithHole", solidGrap, solidHole, nullptr, G4ThreeVector(0., 0., 0.));
     // Logical volume
     G4LogicalVolume *logicGrap = new G4LogicalVolume(solidGrapWithHole, grapMat, "logicGrapBlock");
     G4VPhysicalVolume *physGrap = new G4PVPlacement(0, G4ThreeVector(0., 0., 0. * cm), logicGrap, "physGrapBlock", logicWorld, false, 0, checkOverlaps);
 
-    G4VisAttributes *grapVisAtt = new G4VisAttributes(G4Color(1.0, 0.0, 0.0, 0.5));
+    G4VisAttributes *grapVisAtt = new G4VisAttributes(G4Color(0.0, 1.0, 1.0, 0.5));
     grapVisAtt->SetForceSolid(true);
     logicGrap->SetVisAttributes(grapVisAtt);
 
