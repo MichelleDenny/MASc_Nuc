@@ -1,0 +1,8 @@
+/run/numberOfThreads 4
+
+/run/initialize
+
+/run/beamOn 100000
+/run/verbose 1
+/event/verbose 1
+/tracking/verbose 1
