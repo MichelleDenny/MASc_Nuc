@@ -11,6 +11,7 @@
 #include "G4PVPlacement.hh"
 #include "G4Material.hh"
 #include "G4SubtractionSolid.hh"
+#include "G4Polycone.hh"
 
 #include "G4NistManager.hh"
 #include "G4SystemOfUnits.hh"

@@ -10,8 +10,8 @@ V1ActionInitialization::~V1ActionInitialization()
 
 void V1ActionInitialization::BuildForMaster() const
 {
-    // V1RunAction *runAction = new V1RunAction();
-    // SetUserAction(runAction);
+    V1RunAction *runAction = new V1RunAction();
+    SetUserAction(runAction);
 }
 void V1ActionInitialization::Build() const
 
@@ -20,6 +20,6 @@ void V1ActionInitialization::Build() const
     V1PrimaryGenerator *generator = new V1PrimaryGenerator();
     SetUserAction(generator);
 
-    // V1RunAction *runAction = new V1RunAction();
-    // SetUserAction(runAction);
+    V1RunAction *runAction = new V1RunAction();
+    SetUserAction(runAction);
 }

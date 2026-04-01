@@ -2,18 +2,21 @@
 
 V1PrimaryGenerator::V1PrimaryGenerator()
 {
-    fParticleGun = new G4ParticleGun(1); // 1 particle per event
+    fParticleGun = new G4ParticleGun(60000); // 6000 particle per event
 
-    /// ---- Particle type: neutron ----
-    G4ParticleDefinition *neutron = G4Neutron::Definition();
-    fParticleGun->SetParticleDefinition(neutron);
+    /// ---- Particle type: deuteron ----
+    G4ParticleDefinition *deuteron = G4ParticleTable::GetParticleTable()->FindParticle("deuteron");
+    fParticleGun->SetParticleDefinition(deuteron);
 
-    // ---- D–T neutron energy ----
-    fParticleGun->SetParticleEnergy(14.1 * MeV);
+    // ---- Deuteron energy ----
+    fParticleGun->SetParticleEnergy(500 * keV);
 
     // ---- Source position (target inside graphite hole) ----
-    G4ThreeVector pos(0. * cm, 0. * cm, -1. * cm);
+    G4ThreeVector pos(0. * cm, 0. * cm, -0.5 * cm);
     fParticleGun->SetParticlePosition(pos);
+
+    // ---beam is trsvelling a certain direction now; not isotropic
+    fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0, 0, 1));
 }
 V1PrimaryGenerator::~V1PrimaryGenerator()
 {

@@ -33,6 +33,8 @@ int main(int argc, char **argv)
     // Action Initialization
     runManager->SetUserInitialization(new V1ActionInitialization());
 
+    runManager->SetUserInitialization(new QGSP_BIC_AllHP());
+
     if (argc == 1)
     {
         ui = new G4UIExecutive(argc, argv); // this command is called if only the number of command line arguments is 1

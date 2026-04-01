@@ -1,1 +1,12 @@
 Generating simple neutron generator D-T within the graphite moderator blocks
+
+edit 2: strip back to maybe aluminium lining rod filled with Deuterium gas and shooting D+ ions at a TiD2 ion target?
+
+
+/vis/modeling/trajectories/create/drawByParticleID
+
+/vis/modeling/trajectories/drawByParticleID-0/set gamma green
+/vis/modeling/trajectories/drawByParticleID-0/set "3He" blue
+/vis/modeling/trajectories/drawByParticleID-0/set e- yellow
+/vis/modeling/trajectories/drawByParticleID-0/set n blue
+
