@@ -1,6 +1,6 @@
-#include "V1PrimaryGenerator.hh"
+#include "V2PrimaryGenerator.hh"
 
-V1PrimaryGenerator::V1PrimaryGenerator()
+V2PrimaryGenerator::V2PrimaryGenerator()
 {
     fParticleGun = new G4ParticleGun(60000); // 6000 particle per event
 
@@ -18,12 +18,12 @@ V1PrimaryGenerator::V1PrimaryGenerator()
     // ---beam is trsvelling a certain direction now; not isotropic
     fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0, 0, 1));
 }
-V1PrimaryGenerator::~V1PrimaryGenerator()
+V2PrimaryGenerator::~V2PrimaryGenerator()
 {
     delete fParticleGun;
 }
 
-void V1PrimaryGenerator::GeneratePrimaries(G4Event *anEvent)
+void V2PrimaryGenerator::GeneratePrimaries(G4Event *anEvent)
 {
     // ---- Isotropic neutron emission ----
     G4double theta = CLHEP::pi * G4UniformRand();

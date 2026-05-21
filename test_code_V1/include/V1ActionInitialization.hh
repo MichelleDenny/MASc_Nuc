@@ -5,6 +5,8 @@
 
 #include "V1PrimaryGenerator.hh"
 #include "V1RunAction.hh"
+#include "V1SteppingAction.hh"
+#include "V1EventAction.hh"
 
 class V1ActionInitialization : public G4VUserActionInitialization
 {

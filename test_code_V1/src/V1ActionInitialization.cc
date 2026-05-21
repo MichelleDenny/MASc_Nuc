@@ -22,4 +22,10 @@ void V1ActionInitialization::Build() const
 
     V1RunAction *runAction = new V1RunAction();
     SetUserAction(runAction);
+
+    V1SteppingAction *steppingAction = new V1SteppingAction();
+    SetUserAction(steppingAction);
+
+    V1EventAction *eventAction = new V1EventAction();
+    SetUserAction(eventAction);
 }

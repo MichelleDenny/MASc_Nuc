@@ -1,6 +1,6 @@
-#include "V1RunAction.hh"
+#include "V2RunAction.hh"
 
-V1RunAction::V1RunAction()
+V2RunAction::V2RunAction()
 {
     G4AnalysisManager *analysisManager = G4AnalysisManager::Instance();
 
@@ -15,11 +15,11 @@ V1RunAction::V1RunAction()
     analysisManager->FinishNtuple(0);
 }
 
-V1RunAction::~V1RunAction()
+V2RunAction::~V1RunAction()
 {
 }
 
-void V1RunAction::BeginOfRunAction(const G4Run *run)
+void V2RunAction::BeginOfRunAction(const G4Run *run)
 {
     G4AnalysisManager *analysisManager = G4AnalysisManager::Instance();
 
@@ -31,7 +31,7 @@ void V1RunAction::BeginOfRunAction(const G4Run *run)
     analysisManager->OpenFile("output" + strRunID.str() + ".root");
 }
 
-void V1RunAction::EndOfRunAction(const G4Run *run)
+void V2RunAction::EndOfRunAction(const G4Run *run)
 {
 
     G4AnalysisManager *analysisManager = G4AnalysisManager::Instance();

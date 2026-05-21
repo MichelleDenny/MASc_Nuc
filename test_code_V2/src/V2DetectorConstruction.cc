@@ -1,10 +1,10 @@
-#include "V1DetectorConstruction.hh"
+#include "V2DetectorConstruction.hh"
 
-V1DetectorConstruction::V1DetectorConstruction()
+V2DetectorConstruction::V2DetectorConstruction()
 {
 }
 
-V1DetectorConstruction::~V1DetectorConstruction()
+V2DetectorConstruction::~V2DetectorConstruction()
 {
 }
 
@@ -27,6 +27,8 @@ G4VPhysicalVolume *V1DetectorConstruction::Construct()
 
     TiD2->AddElement(elTi, 1);
     TiD2->AddElement(elD, 2); // creating ion target
+
+    G4Material *matPoly = nist->FindOrBuildMaterial("G4_POLYETHYLENE");
 
     G4Material *grapMat = nist->FindOrBuildMaterial("G4_Al");
     G4Material *worldMat = new G4Material("Vacuum", 1., 1.01 * g / mole, 1.e-25 * g / cm3); // numerical vacuum
