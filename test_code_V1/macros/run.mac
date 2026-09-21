@@ -1,10 +1,9 @@
 /run/numberOfThreads 4
-
+/tracking/storeTrajectory 1
 /run/initialize
 
+/run/beamOn 100
 
 /geometry/test/run
-
-
 /run/verbose 1
 /event/verbose 1000

@@ -9,32 +9,32 @@
 #include "QGSP_BIC_HP.hh"
 #include "QGSP_BIC_AllHP.hh"
 
-#include "V2PhysicsList.hh"
-#include "V2DetectorConstruction.hh"
-#include "V2ActionInitialization.hh"
+#include "V3PhysicsList.hh"
+#include "V3DetectorConstruction.hh"
+#include "V3ActionInitialization.hh"
 
 int main(int argc, char **argv)
 {
     G4UIExecutive *ui = nullptr;
 
-    // ifdef G4MULTITHREADED
-    // G4MTRunManager *runManager = new G4MTRunManager;
+#ifdef G4MULTITHREADED
+    G4MTRunManager *runManager = new G4MTRunManager;
 
-    // #else
+#else
     G4RunManager *runManager = new G4RunManager();
 
-    // #endif
+#endif
 
     // Physics List
-    runManager->SetUserInitialization(new V2PhysicsList());
-
-    // Detector Construction
-    runManager->SetUserInitialization(new V2DetectorConstruction());
-
-    // Action Initialization
-    runManager->SetUserInitialization(new V2ActionInitialization());
+    runManager->SetUserInitialization(new V3PhysicsList());
 
     runManager->SetUserInitialization(new QGSP_BIC_AllHP());
+
+    // Detector Construction
+    runManager->SetUserInitialization(new V3DetectorConstruction());
+
+    // Action Initialization
+    runManager->SetUserInitialization(new V3ActionInitialization());
 
     if (argc == 1)
     {

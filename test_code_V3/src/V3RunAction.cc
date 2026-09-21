@@ -1,6 +1,6 @@
-#include "V2RunAction.hh"
+#include "V3RunAction.hh"
 
-V2RunAction::V2RunAction()
+V3RunAction::V3RunAction()
 {
     G4AnalysisManager *analysisManager = G4AnalysisManager::Instance();
 
@@ -8,22 +8,23 @@ V2RunAction::V2RunAction()
     analysisManager->SetDefaultFileType("root");
     analysisManager->SetNtupleMerging(true);
 
-    analysisManager->CreateH1("Hist", "Energy Deposited", 100, 0.0, 10.1 * MeV);
+    analysisManager->CreateH1("NeutronEnergy", "Neutron Energy Spectrum", 200, 0.0, 8.0 * MeV);
+
     analysisManager->CreateNtuple("Output_data", "Data");
     analysisManager->CreateNtupleIColumn("iEvent");
     analysisManager->CreateNtupleDColumn("fX");
     analysisManager->CreateNtupleDColumn("fY");
     analysisManager->CreateNtupleDColumn("fZ");
     analysisManager->CreateNtupleDColumn("fGlobalTime");
-    analysisManager->CreateNtupleDColumn("fEdep");
+    analysisManager->CreateNtupleDColumn("fKinE");
     analysisManager->FinishNtuple(0);
 }
 
-V2RunAction::~V2RunAction()
+V3RunAction::~V3RunAction()
 {
 }
 
-void V2RunAction::BeginOfRunAction(const G4Run *run)
+void V3RunAction::BeginOfRunAction(const G4Run *run)
 {
     G4AnalysisManager *analysisManager = G4AnalysisManager::Instance();
     // analysisManager->OpenFile("output.root"); //"output.root"
@@ -32,17 +33,16 @@ void V2RunAction::BeginOfRunAction(const G4Run *run)
     std::stringstream strRunID; // convert int to string
     strRunID << runID;
 
-    analysisManager->OpenFile("fluxoutput" + strRunID.str() + ".root");
-    // analysisManager->OpenFile(shieldingMaterial + "_" +std::to_string(run->GetRunID()));
+    analysisManager->OpenFile("output" + strRunID.str() + ".root");
 }
 
-void V2RunAction::EndOfRunAction(const G4Run *run)
+void V3RunAction::EndOfRunAction(const G4Run *run)
 {
 
     G4AnalysisManager *analysisManager = G4AnalysisManager::Instance();
 
     analysisManager->Write();
-    analysisManager->CloseFile(false); // false
+    analysisManager->CloseFile(); // false was inside
     // analysisManager->Reset();
 
     G4int runID = run->GetRunID();

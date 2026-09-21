@@ -1,11 +1,11 @@
-#include "V1PhysicsList.hh"
+#include "V2PhysicsList.hh"
 
-V1PhysicsList::V1PhysicsList() : QGSP_BIC_AllHP()
+V2PhysicsList::V2PhysicsList() : QGSP_BIC_AllHP()
 {
     // RegisterPhysics(new G4IonPhysics());
 } // The QGSP_BIC_HP reference physics list was used to model hadronic
 // interactions and high-precision neutron transport
 
-V1PhysicsList::~V1PhysicsList() // destructor
+V2PhysicsList::~V2PhysicsList() // destructor
 {
 }

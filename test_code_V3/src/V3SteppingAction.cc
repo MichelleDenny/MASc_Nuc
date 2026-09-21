@@ -1,10 +1,10 @@
-#include "V2SteppingAction.hh"
+#include "V3SteppingAction.hh"
 
-V2SteppingAction::V2SteppingAction()
+V3SteppingAction::V3SteppingAction()
 {
 }
 
-V2SteppingAction::~V2SteppingAction()
+V3SteppingAction::~V3SteppingAction()
 {
 }
 /*/*/

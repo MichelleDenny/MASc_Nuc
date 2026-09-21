@@ -1,34 +1,29 @@
-#ifndef V2SENSITIVEDETECTOR_HH
-#define V2SENSITIVEDETECTOR_HH
+#ifndef V3SENSITIVEDETECTOR_HH
+#define V3SENSITIVEDETECTOR_HH
 
 #include "G4VSensitiveDetector.hh"
 
 #include "G4RunManager.hh"
 #include "G4AnalysisManager.hh"
 #include "globals.hh"
-
+#include "G4Neutron.hh"
 #include "G4SystemOfUnits.hh"
 #include "G4UnitsTable.hh"
 
-class V2SensitiveDetector : public G4VSensitiveDetector
+class V3SensitiveDetector : public G4VSensitiveDetector
 {
 public:
-    V2SensitiveDetector(G4String);
-    ~V2SensitiveDetector();
+    V3SensitiveDetector(G4String);
+    ~V3SensitiveDetector();
 
     // virtual G4bool ProcessHits(G4Step *, G4TouchableHistory *);
 
     virtual void Initialize(G4HCofThisEvent *) override;
     virtual G4bool ProcessHits(G4Step *, G4TouchableHistory *) override;
     virtual void EndOfEvent(G4HCofThisEvent *) override;
-    G4int GetFluxCount() const { return fFluxCount; }
-
-    G4double GetEventEdep() const { return fEventEdep; }
 
 private:
     G4double fTotalEnergyDeposited;
-    G4int fFluxCount = 0;
-    G4double fEventEdep = 0.;
 };
 
 #endif

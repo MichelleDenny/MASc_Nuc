@@ -1,5 +1,5 @@
-#ifndef V2DETECTORCONSTRUCTION_HH
-#define V2DETECTORCONSTRUCTION_HH
+#ifndef V3DETECTORCONSTRUCTION_HH
+#define V3DETECTORCONSTRUCTION_HH
 
 #include "G4VUserDetectorConstruction.hh"
 
@@ -26,20 +26,20 @@
 #include "G4Color.hh" //gives detectors certain color when multiple are present
 #include "G4SDManager.hh"
 
-#include "V2SensitiveDetector.hh"
+#include "V3SensitiveDetector.hh"
 
 class G4Material;
 
-class V2DetectorConstruction : public G4VUserDetectorConstruction // inherits class frm GRVU
+class V3DetectorConstruction : public G4VUserDetectorConstruction // inherits class frm GRVU
 {
 public:
-    V2DetectorConstruction();
-    virtual ~V2DetectorConstruction(); // has to be a virtual fucntion cause its already defined in class?
+    V3DetectorConstruction();
+    virtual ~V3DetectorConstruction(); // has to be a virtual fucntion cause its already defined in class?
 
     virtual G4VPhysicalVolume *Construct();
 
 private:
-    G4LogicalVolume *logicFluxSurface; // scoring volume is vol of  detector
+    G4LogicalVolume *logicsphDet; // scoring volume is vol of  detector
     //  write void when there is no return value
     virtual void ConstructSDandField(); // constructs any sensitive detector or any additional field
 };

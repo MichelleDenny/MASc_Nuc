@@ -1,15 +1,15 @@
-#include "V2DetectorConstruction.hh"
+#include "V3DetectorConstruction.hh"
 #include "G4SDManager.hh"
 
-V2DetectorConstruction::V2DetectorConstruction()
+V3DetectorConstruction::V3DetectorConstruction()
 {
 }
 
-V2DetectorConstruction::~V2DetectorConstruction()
+V3DetectorConstruction::~V3DetectorConstruction()
 {
 }
 
-G4VPhysicalVolume *V2DetectorConstruction::Construct()
+G4VPhysicalVolume *V3DetectorConstruction::Construct()
 {
     G4bool checkOverlaps = true;
 
@@ -27,18 +27,13 @@ G4VPhysicalVolume *V2DetectorConstruction::Construct()
     G4Element *elCa = nist->FindOrBuildElement("Ca");
     G4Element *elFe = nist->FindOrBuildElement("Fe");
 
-    //  Non-borated Polyethylene - PNNL (PNNL-15870 Rev.2)
-
     G4Material *matTest = nist->FindOrBuildMaterial("G4_WATER");
 
-    // auto *concrete = nist->FindOrBuildMaterial("G4_CONCRETE");
-    // auto *coreGraphite = nist->FindOrBuildMaterial("G4_GRAPHITE");
-    //  auto *boronCarbide = nist->FindOrBuildMaterial("G4_BORON_CARBIDE");
+    //  Non-borated Polyethylene - PNNL (PNNL-15870 Rev.2)
     G4Material *polyEth = new G4Material("Non-Borated Polyethylene, (PNNL)", 0.93 * g / cm3, 2);
     polyEth->AddElement(elH, 0.143724);
     polyEth->AddElement(elC, 0.856276);
     // 5% Borated Polyethylene - PNNL
-    // auto *polyEth = nist->FindOrBuildMaterial("G4_POLYETHYLENE");
     // G4Material *borypoly = new G4Material("5% Borated Polyethylene", 1.01 * g / cm3, 3);
     // borypoly->AddElement(elH, 0.133);
     // borypoly->AddElement(elC, 0.817);
@@ -63,6 +58,8 @@ G4VPhysicalVolume *V2DetectorConstruction::Construct()
     borypoly->AddElement(ellH, 0.1323149);
     borypoly->AddElement(ellB, 0.0499899);
     borypoly->AddElement(elC, 0.817680833);
+
+    // concrete
 
     G4Material *concrete = new G4Material("Concrete, LANL MCNP mix (PNNL)", 2.25, 7);
 
@@ -109,41 +106,44 @@ G4VPhysicalVolume *V2DetectorConstruction::Construct()
     G4double yWorld = 5.0 * m;
     G4double zWorld = 5.0 * m;
     G4Box *solidWorld = new G4Box("solidWorld", 0.5 * xWorld, 0.5 * yWorld, 0.5 * zWorld);
-
     G4LogicalVolume *logicWorld = new G4LogicalVolume(solidWorld, worldMat, "logicWorld");
     G4VPhysicalVolume *physWorld = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicWorld, "physWorld", 0, false, 0, checkOverlaps);
-    /*v v*/
-    /// Outer Poly Shielding
-    G4double xOuterpoly = 126.86 * cm; // half lengths
-    G4double yOuterpoly = 126.86 * cm;
-    G4double zOuterpoly = 126.86 * cm;
+    /*
+        /// Outer Poly Shielding
+        G4double xOuterpoly = 126.86 * cm; // half lengths
+        G4double yOuterpoly = 126.86 * cm;
+        G4double zOuterpoly = 126.86 * cm;
 
-    G4double xOuterconc = 85.54 * cm; // reduced 85.54
-    G4double yOuterconc = 85.54 * cm; // og 106.54
-    G4double zOuterconc = 85.54 * cm;
+        G4double xOuterconc = 85.54 * cm;
+        G4double yOuterconc = 85.54 * cm; // og106.54
+        G4double zOuterconc = 85.54 * cm;
 
-    G4Box *solidOuterpoly = new G4Box("solidOuterpoly", xOuterpoly, yOuterpoly, zOuterpoly);
-    G4Box *outerPolyhole = new G4Box("outerPolyhole", xOuterconc, yOuterconc, zOuterconc);
+        G4Box *solidOuterpoly = new G4Box("solidOuterpoly", xOuterpoly, yOuterpoly, zOuterpoly);
+        G4Box *outerPolyhole = new G4Box("outerPolyhole", xOuterconc, yOuterconc, zOuterconc);
 
-    G4SubtractionSolid *shellOuterpoly = new G4SubtractionSolid("shellOuterpoly", solidOuterpoly, outerPolyhole, 0, G4ThreeVector(0., 0., 0.));
+        G4SubtractionSolid *shellOuterpoly = new G4SubtractionSolid("shellOuterpoly", solidOuterpoly, outerPolyhole, 0, G4ThreeVector(0., 0., 0.));
 
-    G4LogicalVolume *logicOuterpoly = new G4LogicalVolume(shellOuterpoly, borypoly, "logicOuterpoly");
-    G4VPhysicalVolume *physOuterpoly = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicOuterpoly, "physOuterpoly", logicWorld, false, 0, checkOverlaps);
+        G4LogicalVolume *logicOuterpoly = new G4LogicalVolume(shellOuterpoly, borypoly, "logicOuterpoly");
+        G4VPhysicalVolume *physOuterpoly = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicOuterpoly, "physOuterpoly", logicWorld, false, 0, checkOverlaps);
 
-    // Concrete Shielding
+        // Concrete Shielding
+        G4double xInnerpoly = 45.82 * cm; // half lengths #o g60.82 * cm;
+        G4double yInnerpoly = 45.82 * cm;
+        G4double zInnerpoly = 45.82 * cm;
 
-    G4double xInnerpoly = 60.82 * cm; // half lengths normal, og 60.82 * cm;
-    G4double yInnerpoly = 60.82 * cm; // thickness reduced 45.82
-    G4double zInnerpoly = 60.82 * cm;
+        G4Box *solidConcreteouter = new G4Box("solidConcreteouter", xOuterconc, yOuterconc, zOuterconc);
+        G4Box *concreteHole = new G4Box("solidInnerpoly", xInnerpoly, yInnerpoly, zInnerpoly);
 
-    G4Box *solidConcreteouter = new G4Box("solidConcreteouter", xOuterconc, yOuterconc, zOuterconc);
-    G4Box *concreteHole = new G4Box("solidInnerpoly", xInnerpoly, yInnerpoly, zInnerpoly);
-
-    G4SubtractionSolid *shellConcrete = new G4SubtractionSolid("shellConcrete", solidConcreteouter, concreteHole, 0, G4ThreeVector(0., 0., 0.));
-    G4LogicalVolume *logicConcrete = new G4LogicalVolume(shellConcrete, concrete, "logicConcrete");
-    G4VPhysicalVolume *physConcrete = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicConcrete, "physConcrete", logicWorld, false, 0, checkOverlaps);
+        G4SubtractionSolid *shellConcrete = new G4SubtractionSolid("shellConcrete", solidConcreteouter, concreteHole, 0, G4ThreeVector(0., 0., 0.));
+        G4LogicalVolume *logicConcrete = new G4LogicalVolume(shellConcrete, concrete, "logicConcrete");
+        G4VPhysicalVolume *physConcrete = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicConcrete, "physConcrete", logicWorld, false, 0, checkOverlaps);
 
     // Inner Poly/Graphite shielding
+
+    // Concrete Shielding
+    G4double xInnerpoly = 45.82 * cm; // half lengths #o g60.82 * cm;
+    G4double yInnerpoly = 45.82 * cm;
+    G4double zInnerpoly = 45.82 * cm;
 
     G4double xCentralVoid = 40.5 * cm; // half lengths
     G4double yCentralVoid = 40.5 * cm;
@@ -153,7 +153,7 @@ G4VPhysicalVolume *V2DetectorConstruction::Construct()
     G4Box *innerPolyhole = new G4Box("innerPolyhole", xCentralVoid, yCentralVoid, zCentralVoid);
 
     G4SubtractionSolid *shellInnerpoly = new G4SubtractionSolid("shellInnerpoly", solidInnerpoly, innerPolyhole, 0, G4ThreeVector(0., 0., 0.));
-    G4LogicalVolume *logicInnerpoly = new G4LogicalVolume(shellInnerpoly, borypoly, "logicInnerpoly");
+    G4LogicalVolume *logicInnerpoly = new G4LogicalVolume(shellInnerpoly, coreGraphite, "logicInnerpoly");
     G4VPhysicalVolume *physInnerpoly = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicInnerpoly, "physInnerpoly", logicWorld, false, 0, checkOverlaps);
 
     // Inner void with point source
@@ -162,45 +162,40 @@ G4VPhysicalVolume *V2DetectorConstruction::Construct()
     // logical vol takes over solid world/volume
     G4VPhysicalVolume *physCentralvoid = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicCentralvoid, "physCentralvoid", logicInnerpoly, false, 0, checkOverlaps);
 
-    // surface scorer
-    G4Sphere *fluxSurface = new G4Sphere("fluxSurface", 120.9 * cm, 121.0 * cm, 0, 360 * deg, 0, 180 * deg);
-
-    G4LogicalVolume *logicFluxSurface = new G4LogicalVolume(fluxSurface, worldMat, "logicFluxSurface"); // IMPORTANT: vacuum-like
-
-    G4VPhysicalVolume *physFluxSurface = new G4PVPlacement(0, G4ThreeVector(0, 0, 0), logicFluxSurface, "physFluxSurface", logicWorld, false, 0, checkOverlaps); // IMPORTANT FIX
-    /*
-    // wall detector
-    G4Sphere *smallDet = new G4Sphere("smallDet", 20 * cm, 25 * cm, 0, 360 * deg, 0, 180 * deg);
-    logicSmalldet = new G4LogicalVolume(smallDet, matTest, "logicSmalldet");
-    // logical vol takes over solid world/volume
-    G4VPhysicalVolume *physSmalldet = new G4PVPlacement(0, G4ThreeVector(155 * cm, 0., 0.), logicSmalldet, "physSmalldet", logicWorld, false, 0, checkOverlaps);
-    G4VisAttributes *detVisAtt = new G4VisAttributes(G4Color(0.0, 0.0, 1.0, 0.95));
-    detVisAtt->SetForceSolid(true);
-    logicSmalldet->SetVisAttributes(detVisAtt);
+*/
     // spherical detector
+
+    G4Sphere *sphDet = new G4Sphere("sphDet", 0 * cm, 10 * cm, 0, 360 * deg, 0, 180 * deg);
+    logicsphDet = new G4LogicalVolume(sphDet, matTest, "logicDet");
+    // logical vol takes over solid world/volume
+    G4VPhysicalVolume *physsphDet = new G4PVPlacement(0, G4ThreeVector(0., 0., 20.0 * cm), logicsphDet, "physsphDet", logicWorld, false, 0, checkOverlaps);
+    G4VisAttributes *detVisAtt = new G4VisAttributes(G4Color(0.0, 0.0, 1.0, 0.95)); // det is blue
+    detVisAtt->SetForceSolid(true);
+    logicsphDet->SetVisAttributes(detVisAtt);
+
     G4double iTargetRadius = 1.70 * cm;    // initial was 1.9 cm
     G4double iTargetThickness = 3.00 * mm; // dimensions of ion target testing 3mm; initially 1mm
     G4RotationMatrix *rotMatrix = new G4RotationMatrix();
     rotMatrix->rotateY(45. * deg);
     G4Tubs *ionTarget = new G4Tubs("ionTarget", 0., iTargetRadius, iTargetThickness * 0.5, 0.0 * deg, 360.0 * deg);
     G4LogicalVolume *logicIonTarget = new G4LogicalVolume(ionTarget, TiD2, "logicIonTarget");
-    G4VPhysicalVolume *physIonTarget = new G4PVPlacement(rotMatrix, G4ThreeVector(0., 0., 2. * cm), logicIonTarget, "physIonTarget", logicGasTube, 0, checkOverlaps);
+    G4VPhysicalVolume *physIonTarget = new G4PVPlacement(rotMatrix, G4ThreeVector(0., 0., 2. * cm), logicIonTarget, "physIonTarget", logicWorld, 0, checkOverlaps);
     // distance btw source and target is 6 cm
     G4VisAttributes *ionTargetVisAtt = new G4VisAttributes(G4Color(1.0, 0.0, 1.0, 1.0)); // ion target is purple
     ionTargetVisAtt->SetForceSolid(true);
     logicIonTarget->SetVisAttributes(ionTargetVisAtt);
-    */
+
     return physWorld;
 }
 
-void V2DetectorConstruction::ConstructSDandField()
+void V3DetectorConstruction::ConstructSDandField()
 {
     auto sdManager = G4SDManager::GetSDMpointer();
 
-    auto detSD = new V2SensitiveDetector("DetSD");
+    auto detSD = new V3SensitiveDetector("DetSD");
     sdManager->AddNewDetector(detSD);
 
-    logicFluxSurface->SetSensitiveDetector(detSD);
+    logicsphDet->SetSensitiveDetector(detSD);
 }
 
 //{test1SensitiveDetector *sensDet = new test1SensitiveDetector("SensitiveDetector");

@@ -1,4 +1,4 @@
-#/run/numberOfThreads 1
+/run/numberOfThreads 4
 #/tracking/storeTrajectory 1
 /run/initialize
 
@@ -6,7 +6,7 @@
 #/vis/drawVolume
 #/vis/enable
 #/vis/viewer/flush
-/run/beamOn 1
+/run/beamOn 10000
 
-/run/verbose 1
-/event/verbose 1
+#/run/verbose 1
+#/event/verbose 1

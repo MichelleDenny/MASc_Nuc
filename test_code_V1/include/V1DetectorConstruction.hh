@@ -35,7 +35,7 @@ public:
 private:
     G4LogicalVolume *logicDetector;
     // write void when there is no return value
-    virtual void ConstructSDandField(); // constructs any sensitive detector or any additional field
+    // virtual void ConstructSDandField(); // constructs any sensitive detector or any additional field
 };
 
 #endif
